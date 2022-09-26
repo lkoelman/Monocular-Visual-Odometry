@@ -24,9 +24,10 @@ set (CMAKE_CXX_FLAGS "-DPCL_ONLY_CORE_POINT_TYPES=ON -DNO_EXPLICIT_INSTANTIATION
 # Eigen
 include_directories( "/usr/include/eigen3" )
 # OpenCV
-find_package( OpenCV 3.4 REQUIRED )
+find_package( OpenCV 4.5 REQUIRED )
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 # Sophus 
+# list( APPEND CMAKE_MODULE_PATH /usr/local/share/sophus/cmake )
 find_package( Sophus REQUIRED )
 include_directories( ${Sophus_INCLUDE_DIRS} )
 # G2O
@@ -45,9 +46,10 @@ set( THIRD_PARTY_LIBS
     ${OpenCV_LIBS}
     ${PCL_LIBRARIES}
     ${Sophus_LIBRARIES} # If "make install" is good, use this line
-    libSophus.so # If "make install" failed, copy files manully to usr/lib and usr/include, and use this line
+    #libSophus.so # If "make install" failed, copy files manully to usr/lib and usr/include, and use this line
     g2o_core g2o_stuff g2o_types_sba g2o_csparse_extension
     ${CSPARSE_LIBRARY}
+    fmt
 )
 
 ############### My Files ###############
