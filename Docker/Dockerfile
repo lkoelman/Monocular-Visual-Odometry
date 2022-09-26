@@ -47,6 +47,8 @@ RUN apt-get update && apt-get upgrade -y && \
         libtbb-dev \
         libgtk2.0-dev \
         pkg-config \
+        libpcl-dev \
+        libfmt-dev \
         ## Python
         python3-pip \
         python3-dev \
