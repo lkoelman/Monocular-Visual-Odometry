@@ -5,19 +5,21 @@ project ( myslam )
 set( CMAKE_CXX_COMPILER "g++" )
 set( CMAKE_BUILD_TYPE "Debug" )
 # set( CMAKE_BUILD_TYPE "Release" ) # *** stack smashing detected ***: <unknown> terminated
-set( CMAKE_CXX_FLAGS "-std=c++11 -O3" )
+# set( CMAKE_CXX_FLAGS "-std=c++11 -O3" )
+set( CMAKE_CXX_FLAGS "-O3" )
+set(CMAKE_CXX_STANDARD 17)
 
 # list( APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules )
 set( EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin )
 set( LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib )
 
 # set ccache (for speeding up)
-find_program(CCACHE_FOUND ccache) 
-if(CCACHE_FOUND) 
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache) 
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache) 
-endif(CCACHE_FOUND) 
-set (CMAKE_CXX_FLAGS "-DPCL_ONLY_CORE_POINT_TYPES=ON -DNO_EXPLICIT_INSTANTIATIONS") 
+find_program(CCACHE_FOUND ccache)
+if(CCACHE_FOUND)
+    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
+    set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
+endif(CCACHE_FOUND)
+set (CMAKE_CXX_FLAGS "-DPCL_ONLY_CORE_POINT_TYPES=ON -DNO_EXPLICIT_INSTANTIATIONS")
 
 ############### Dependencies ######################
 
@@ -26,7 +28,7 @@ include_directories( "/usr/include/eigen3" )
 # OpenCV
 find_package( OpenCV 4.5 REQUIRED )
 include_directories( ${OpenCV_INCLUDE_DIRS} )
-# Sophus 
+# Sophus
 # list( APPEND CMAKE_MODULE_PATH /usr/local/share/sophus/cmake )
 find_package( Sophus REQUIRED )
 include_directories( ${Sophus_INCLUDE_DIRS} )
@@ -36,13 +38,13 @@ find_package( G2O REQUIRED )
 find_package( CSparse REQUIRED ) ## note!! if the csparse is not found, please install: sudo apt-get install libsuitesparse-dev
 include_directories( ${G2O_INCLUDE_DIRS} )
 include_directories( ${CSPARSE_INCLUDE_DIR} )
-# PCL 
-find_package( PCL REQUIRED ) 
+# PCL
+find_package( PCL REQUIRED )
 include_directories( ${PCL_INCLUDE_DIRS} )
 add_definitions( ${PCL_DEFINITIONS} )
 
 # Combine the above libraries
-set( THIRD_PARTY_LIBS 
+set( THIRD_PARTY_LIBS
     ${OpenCV_LIBS}
     ${PCL_LIBRARIES}
     ${Sophus_LIBRARIES} # If "make install" is good, use this line
@@ -63,4 +65,13 @@ target_link_libraries( run_vo
     geometry
     display
     vo
+)
+
+add_executable(run_vo_benchmark run_vo_benchmark.cpp)
+target_link_libraries( run_vo_benchmark
+    basics
+    geometry
+    display
+    vo
+    stdc++fs
 )

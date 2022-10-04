@@ -61,7 +61,7 @@ public:
     void Release();
 
 private:
-    /* @brief: The member variable that stores yaml data 
+    /* @brief: The member variable that stores yaml data
      *         is either file_node_ or file_storage_.
      */
     const bool is_file_node_;
